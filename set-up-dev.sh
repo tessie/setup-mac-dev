@@ -4,9 +4,9 @@ function pretty_print(){
 
 function is_app_installed(){
   if ls /Applications/ | grep -i $1 > /dev/null; then
-    return 1;
-  else
     return 0;
+  else
+    return 1;
   fi
 }
 
@@ -35,6 +35,7 @@ function setup_git(){
   else
     pretty_print "git is already installed"
   fi
+  
 }
 
 function configure_git(){
@@ -60,11 +61,23 @@ function setup_vimrc(){
 function install_iterm(){
   echo "Setup Iterm"
   is_app_installed iterm
-  if [[ "$?" = 1 ]]; then
+  if [[ "$?" = 0 ]]; then
     echo "iterm already installed"
   else
     brew cask install iterm2
   fi
+}
+
+function setup_zsh(){
+  which zsh
+  if [[ "$?" = 0 ]]; then
+    echo "zsh is already installed"
+  else
+    brew install zsh
+  fi
+  brew install zsh-completions
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  sudo chsh -s $(which zsh)
 }
 
 setup_brew
@@ -77,3 +90,4 @@ if [[ "$option" = "y" ]]; then
   configure_git
 fi
 install_iterm
+setup_zsh
