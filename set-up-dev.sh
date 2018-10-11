@@ -35,7 +35,6 @@ function setup_git(){
   else
     pretty_print "git is already installed"
   fi
-  
 }
 
 function configure_git(){
@@ -80,6 +79,14 @@ function setup_zsh(){
   sudo chsh -s $(which zsh)
 }
 
+function setup_python3(){
+  if ! command -v python3 >/dev/null; then
+    brew install python3
+  else
+    pretty_print "Python3 is already installed"
+  fi
+}
+
 setup_brew
 brew update
 install_vim
@@ -91,3 +98,4 @@ if [[ "$option" = "y" ]]; then
 fi
 install_iterm
 setup_zsh
+setup_python3
