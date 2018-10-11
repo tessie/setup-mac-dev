@@ -85,6 +85,13 @@ function setup_python3(){
   else
     pretty_print "Python3 is already installed"
   fi
+    pip3 install virtualenv --user
+    pip3 install pipenv --user
+}
+
+function setup_virtualenv_for_python2(){
+    pip install virtualenv --user
+    pip install pipenv --user
 }
 
 setup_brew
@@ -99,3 +106,4 @@ fi
 install_iterm
 setup_zsh
 setup_python3
+setup_virtualenv_for_python2
