@@ -2,13 +2,21 @@ function pretty_print(){
   tput setaf 1; echo $1
 }
 
+function is_app_installed(){
+  if ls /Applications/ | grep -i $1 > /dev/null; then
+    return 1;
+  else
+    return 0;
+  fi
+}
+
 function setup_brew(){
-  if ! command -v brew >/dev/null; then
+  if ! command -v brew > /dev/null; then
     pretty_print "Installing brew"
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
     pretty_print "Brew is already installed"
-   fi
+  fi
 }
 
 function install_vim(){
@@ -44,6 +52,21 @@ function configure_git(){
   git config --list
 }
 
+function setup_vimrc(){
+  git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+  sh ~/.vim_runtime/install_awesome_vimrc.s
+}
+
+function install_iterm(){
+  echo "Setup Iterm"
+  is_app_installed iterm
+  if [[ "$?" = 1 ]]; then
+    echo "iterm already installed"
+  else
+    brew cask install iterm2
+  fi
+}
+
 setup_brew
 brew update
 install_vim
@@ -53,3 +76,4 @@ read option
 if [[ "$option" = "y" ]]; then
   configure_git
 fi
+install_iterm
